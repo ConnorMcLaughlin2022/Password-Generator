@@ -1,80 +1,92 @@
 // Assignment Code
+var generateBtn = document.querySelector("#generate");
 
-var specialChars= ["!","#","?"]
-var numericChars= ["1","2","3","4","5","6","7","8","9"]
-var lowercaseChars= ["a","b","c"]
-var uppercaseChars= ["A","B","C"]
-var length;
-// var result "";
+
+var numericChars = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+var specialChars = ['!', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '_', '`', '{', '|', '}', '~'];
+var upperCase = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+  'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+  'Y', 'Z']
+var lowerCase = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+var addUpper;
+var addLower;
+var addSpecial;
+var addNumber;
+var length = '';
 var availableChars;
+var result = '';
+
+
 var special = true
 var number = true
 var capitol = true
 var lower = true
 // // Global variables
 
-
-var generateBtn = document.querySelector("#generate");
-
 // Write password to the #password input
 function writePassword() {
-  var password = generatePassword();
+  generatePassword();
+  passwordCombine();
+  var password = result;
   var passwordText = document.querySelector("#password");
-
   passwordText.value = password;
 
 }
+  generateBtn.addEventListener("click", writePassword);
 
 // Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
-// Own function
-function generatePassword () {
+// Generate function
+function generatePassword() {
+  // prompt for length of pw
+  length = prompt("how many characters do you want your password to be (8-128)");
+  console.log(length)
+  // check if valid length, if wront prompt again
+  if ((length < 8) || (length > 128)) {
+    prompt("Enter a valid number");
+    if (!length) {
+      alert("sorry try again!");
+      return;
+    }
+  }
+    result = '';
 
+    // ask for character types
 
-// prompt for length of pw
-length = prompt("how many characters do you want you r password to be (8-128)")
-console.log(length)
-// check if valid length, if wront prompt again
+    // 4 confirms for each type
 
+    addSpecial = confirm("Special characters?");
+    if (addSpecial) {
+      availableChars = specialChars;
+    }
+    console.log(availableChars);
 
-
-// ask for character types
-special= confirm("Would you like to add special characters?") 
-if (special) {
-  availableChars = specialChars
-}
-console.log(availableChars)
-
-number = confirm("would you like to add numbers?")
-if (number) {
-availableChars = availableChars.concat(numericChars)
-}
-console.log(availableChars)
-
-capitol = confirm("would you like uppercase letters")
-if (capitol){
-  availableChars = availableChars.concat(uppercaseChars)
-}
-console.log(availableChars)
-lower = confirm("would you like to add lowercase letters")
-if (lower) {
-  availableChars=availableChars.concat(lowercaseChars)
-}
-console.log(availableChars)
-// 4 confirms for each type
-// add to available characters
-// availableChars = availableChars.concat(numericCharacters)
-// validate they selected atleast one
-
-
-
-
-// seperate function
-// iterate length inn number of times
-// select random character fropm available chars
-// add to result
-
-// return result
-
-}
-// generatePassword () 
+    addNumber = confirm("Numbers?");
+    if (addNumber) {
+      availableChars = numericChars.concat(availableChars)
+    }
+    console.log(availableChars)
+    addUpper = confirm("Upper Case?");
+    if (addUpper) {
+      availableChars = upperCase.concat(availableChars);
+    }
+    console.log(availableChars);
+    addLower = confirm("Lower Case?");
+    if (addLower) {
+      availableChars = lowerCase.concat(availableChars);
+    }
+    console.log(availableChars);
+    if (!addSpecial) {
+      availableChars.pop();
+    }
+    // make sure one atleast in selected
+    if ((!addSpecial) && (!addUpper) && (!addNumber) && (!addLower)) {
+      alert("You must choose a type of character")
+    }
+    return;
+  }
+    function passwordCombine() {
+      for (i = 0; i<length; i++){
+        result += availableChars[Math.floor(Math.random()*availableChars.length)]
+      }
+      return;
+    }
